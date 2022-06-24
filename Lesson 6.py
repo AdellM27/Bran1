@@ -1,187 +1,151 @@
-"""1. Создать класс TrafficLight и определить у него один атрибут color и метод running.
-Атрибут реализовать как приватный. В рамках метода реализовать переключение светофора в режимы: красный, желтый,
-зеленый. Продолжительность первого состояния (красный) составляет 7 секунд, второго (желтый) — 2 секунды,
-третьего (зеленый) — на ваше усмотрение.  Переключение между режимами должно осуществляться только в указанном
-порядке (красный, желтый, зеленый). Проверить работу примера, создав экземпляр и вызвав описанный метод. Задачу можно
-усложнить, реализовав проверку порядка режимов, и при его нарушении выводить соответствующее сообщение и завершать
-скрипт. """
-from time import sleep
+"""
+1. Реализовать класс Matrix (матрица). Обеспечить перегрузку конструктора класса (метод init()), который должен принимать
+данные (список списков) для формирования матрицы.
+Подсказка: матрица — система некоторых математических величин, расположенных в виде прямоугольной схемы.
+Примеры матриц: см. в методичке.
+
+Следующий шаг — реализовать перегрузку метода str() для вывода матрицы в привычном виде.
+Далее реализовать перегрузку метода add() для реализации операции сложения двух объектов класса Matrix (двух матриц).
+ Результатом сложения должна быть новая матрица.
+Подсказка: сложение элементов матриц выполнять поэлементно — первый элемент первой строки первой матрицы складываем с
+первым элементом первой строки второй матрицы и т.д.
+"""
 
 
-class TrafficLight:
-    __color = ['Красный', 'Желтый', 'Зеленый']
+class Matrix:
+    list = []
 
-    def running(self):
-        i = 0
-        while i != 3:
-            print(TrafficLight.__color[i])
-            if i == 0:
-                sleep(7)
-            elif i == 1:
-                sleep(2)
-            elif i == 2:
-                sleep(5)
-            i += 1
+    def __init__(self, list):
+        self.list = list
 
+    def __str__(self):
+        return '\n'.join(map(str, self.list))
 
-t = TrafficLight()
-t.running()
-
-""" 2. Реализовать класс Road, в котором определить атрибуты: length, width. Значения данных
-атрибутов должны передаваться при создании экземпляра класса. Атрибуты сделать защищенными. Определить метод расчета
-массы асфальта, необходимого для покрытия всего дорожного полотна. Использовать формулу: длина*ширина*масса асфальта
-для покрытия одного кв метра дороги асфальтом, толщиной в 1 см*число см толщины полотна. Проверить работу метода.
-Например: 20м*5000м*25кг*5см = 12500 т """
+    def __add__(self, other):
+        for i in range(len(self.list)):
+            for i_2 in range(len(other.my_list[i])):
+                self.list[i][i_2] = self.list[i][i_2] + other.my_list[i][i_2]
+        return Matrix.__str__(self)
 
 
-class Road:
+m = Matrix([[-1, 0, 1], [-1, 0, 1], [0, 1, -1], [1, 1, -1]])
 
-    def __init__(self, length, width):
-        self._length = length
-        self._width = width
-        self.weight = 25
-        self.height = 5
-
-    def asphalt_mass(self):
-        asphalt_mass = self._length * self._width * self.weight * self.height / 1000
-        print(f'Для покрытия всего дорожного полотна неободимо {round(asphalt_mass)} массы асфальта')
-
-
-r = Road(5000, 20)
-r.asphalt_mass()
-
-"""3. Реализовать базовый класс Worker, в котором определить атрибуты: name, surname, position,
-income. Последний атрибут должен быть защищенным и ссылаться на словарь, содержащий элементы: оклад и премия,
-например, {"wage": wage, "bonus": bonus}. Создать класс Position на базе класса Worker. В классе Position
-реализовать методы получения полного имени сотрудника (get_full_name) и дохода с учетом премии (get_total_income).
-Проверить работу примера на реальных данных (создать экземпляры класса Position, передать данные, проверить значения
-атрибутов, вызвать методы экземпляров). """
+"""
+2. Реализовать проект расчета суммарного расхода ткани на производство одежды. Основная сущность (класс) этого проекта 
+— одежда, которая может иметь определенное название. К типам одежды в этом проекте относятся пальто и костюм. 
+ У этих типов одежды существуют параметры: размер (для пальто) и рост (для костюма). Это могут быть обычные числа:
+  V и H, соответственно.
+Для определения расхода ткани по каждому типу одежды использовать формулы: для пальто (V/6.5 + 0.5), для костюма 
+(2*H + 0.3). Проверить работу этих методов на реальных данных.
+Реализовать общий подсчет расхода ткани. Проверить на практике полученные на этом уроке знания: реализовать 
+абстрактные классы для основных классов проекта, проверить на практике работу декоратора @property.
+"""
 
 
-class Worker:
-
-    def __init__(self, name, surname, position, wage, bonus):
-        self.name = name
-        self.surname = surname
-        self.position = position
-        self._income = {"wage": int(wage), "bonus": int(bonus)}
+class clothes:
+    def __init__(self, height, size):
+        self.size = size
+        self.height = height
 
 
-class Position(Worker):
-    def __init__(self, name, surname, position, wage, bonus):
-        super().__init__(name, surname, position, wage, bonus)
-
-    def get_full_name(self):
-        return self.name + ' ' + self.surname
-
-    def get_total_income(self):
-        return self._income["wage"] + self._income["bonus"]
+def get_square_c(self):
+    return self.size / 6.5 + 0.5
 
 
-p = Position('Sasha', 'Popov', 'RT', '10000', '2000')
-print(p.get_full_name(), p.get_total_income())
-
-"""4. Реализуйте базовый класс Car. У данного класса должны быть следующие атрибуты: speed, color, name, is_police (
-булево).  А также методы: go, stop, turn(direction), которые должны сообщать, что машина поехала, остановилась,
-повернула (куда). Опишите несколько дочерних классов: TownCar, SportCar, WorkCar, PoliceCar. Добавьте в базовый класс
-метод show_speed, который должен показывать текущую скорость автомобиля. Для классов TownCar и WorkCar переопределите
-метод show_speed. При значении скорости свыше 60 (TownCar) и 40 (WorkCar) должно выводиться сообщение о превышении
-скорости. Создайте экземпляры классов, передайте значения атрибутов. Выполните доступ к атрибутам,
-выведите результат. Выполните вызов методов и также покажите результат. """
+def get_square_j(self):
+    return self.height * 2 + 0.3
 
 
-class Car:
-
-    def __init__(self, name, speed, color, is_police=False):
-        self.name = name
-        self.speed = speed
-        self.color = color
-        self.is_police = is_police
-
-    def go(self):
-        return f'The {self.name} went.'
-
-    def stop(self):
-        return f'\nThe {self.name} has stopped.'
-
-    def turn(self, direction):
-        return f'\nThe {self.name} turned {direction}'
-
-    def show_speed(self):
-        return f'\nYour speed is {self.speed}'
+@property
+def get_sq_full(self):
+    return str(f'Площадь общая ткани \n'
+               f' {(self.size / 6.5 + 0.5) + (self.height * 2 + 0.3)}')
 
 
-class TownCar(Car):
-    def show_speed(self):
-        # def __init__(self, speed, color, name, is_police):
-        #     super().__init__(speed, color, name, is_police)
-        if self.speed > 60:
-            return f'\nYour speed is higher than allow! Your speed is {self.speed}'
+class Coat(clothes):
+    def __init__(self, size, height):
+        super().__init__(size, height)
+        self.square_c = round(self.size / 6.5 + 0.5)
+
+    def __str__(self):
+        return f'Площадь на пальто {self.square_c}'
+
+
+class Jacket(clothes):
+    def __init__(self, size, height):
+        super().__init__(size, height)
+        self.square_j = round(self.height * 2 + 0.3)
+
+    def __str__(self):
+        return f'Площадь на костюм {self.square_j}'
+
+
+coat = Coat(5, 8)
+jacket = Jacket(6, 4)
+print(coat)
+print(jacket)
+
+"""
+3. Реализовать программу работы с органическими клетками, состоящими из ячеек. Необходимо создать класс Клетка. 
+В его конструкторе инициализировать параметр, соответствующий количеству ячеек клетки (целое число). 
+В классе должны быть реализованы методы перегрузки арифметических операторов: сложение (add()), 
+вычитание (sub()), умножение (mul()), деление (truediv()). Данные методы должны применяться только к клеткам
+ и выполнять увеличение, уменьшение, умножение и целочисленное (с округлением до целого) деление клеток, соответственно.
+Сложение. Объединение двух клеток. При этом число ячеек общей клетки должно равняться сумме ячеек исходных двух клеток.
+Вычитание. Участвуют две клетки. Операцию необходимо выполнять только если разность количества ячеек двух клеток
+ больше нуля, иначе выводить соответствующее сообщение.
+Умножение. Создается общая клетка из двух. Число ячеек общей клетки определяется как произведение количества ячеек 
+этих двух клеток.
+Деление. Создается общая клетка из двух. Число ячеек общей клетки определяется как целочисленное деление количества
+ ячеек этих двух клеток.
+В классе необходимо реализовать метод make_order(), принимающий экземпляр класса и количество ячеек в ряду. 
+Данный метод позволяет организовать ячейки по рядам.
+Метод должен возвращать строку вида *****\n*****\n*****..., где количество ячеек между \n равно переданному 
+аргументу. Если ячеек на формирование ряда не хватает, то в последний ряд записываются все оставшиеся.
+Например, количество ячеек клетки равняется 12, количество ячеек в ряду — 5. Тогда метод make_order() вернет
+ строку: *****\n*****\n**.
+Или, количество ячеек клетки равняется 15, количество ячеек в ряду — 5. Тогда метод make_order() вернет строку:
+ *****\n*****\n*****.
+Подсказка: подробный список операторов для перегрузки доступен по ссылке.
+
+
+"""
+
+
+class Cell:
+    def __init__(self, quantity):
+        self.quantity = int(quantity)
+
+    def __str__(self):
+        return f'Результат операции {self.quantity * "*"}'
+
+    def __add__(self, other):
+        return Cell(self.quantity + other.quantity)
+
+    def __sub__(self, other):
+        '''
+        Выдает ошибку о том, что результат не число  при вычислении
+        if int(Cell(self.quantity - other.quantity)) > 0:
+            return Cell(int(self.quantity - other.quantity))
         else:
-            return f'Speed of {self.name} is normal'
+            return f'Операция вычитания невозможна'""
+        '''
+        return self.quantity - other.quantity if (self.quantity - other.quantity) > 0 else print('Отрицательно!')
+
+    def __mul__(self, other):
+        return Cell(int(self.quantity * other.quantity))
+
+    def __truediv__(self, other):
+        return Cell(round(self.quantity // other.quantity))
+
+    def make_order(self, cells_in_row):
+        row = ''
+        for i in range(int(self.quantity / cells_in_row)):
+            row += f'{"*" * cells_in_row} \\n'
+        row += f'{"*" * (self.quantity % cells_in_row)}'
+        return row
 
 
-class SportCar(Car):
-    pass
+cells1 = Cell(33)
+cells2 = Cell(9)
 
-
-class WorkCar(Car):
-    def show_speed(self):
-        if self.speed > 40:
-            return f'\nYour speed is higher than allow! Your speed is {self.speed}'
-        else:
-            return f'Speed of {self.name} is normal'
-
-
-class PoliceCar(Car):
-    pass
-
-
-town = TownCar('Audi', 70, 'blue', False)
-print('1:\n' + town.go(), town.show_speed(), town.turn('left'), town.turn('right'), town.stop())
-
-sport = SportCar('AudiRS', 170, 'red', False)
-print('2:\n' + sport.go(), sport.show_speed(), sport.turn('left'), sport.stop())
-
-work = WorkCar('WAZ', 30, 'red', False)
-print('3:\n' + work.go(), work.show_speed(), work.turn('right'), work.stop())
-
-police = PoliceCar('Kia', 100, 'yellow', True)
-print('4:\n' + work.go(), work.show_speed(), work.turn('right'), work.stop())
-
-"""5. Реализовать класс Stationery. Определить в нем атрибут title и метод draw. 
-Метод выводит сообщение “Запуск отрисовки.” Создать три дочерних класса Pen, Pencil, Handle. 
-В каждом из классов реализовать переопределение метода draw. 
-Для каждого из классов метод должен выводить уникальное сообщение. 
-Создать экземпляры классов и проверить, что выведет описанный метод для каждого экземпляра."""
-
-
-class Stationery:
-    def __init__(self, title):
-        self.title = title
-
-    def draw(self):
-        return f'Запуск отрисовки'
-
-
-class Pen(Stationery):
-    def draw(self):
-        return f'Запуск отрисовки {self.title}'
-
-
-class Pencil(Stationery):
-    def draw(self):
-        return f'Запуск отрисовки {self.title}'
-
-
-class Handle(Stationery):
-    def draw(self):
-        return f'Запуск отрисовки {self.title}'
-
-
-pen = Pen('ручкой')
-print(pen.draw())
-pencil = Pencil('карандашем')
-print(pencil.draw())
-handle = Handle('маркером')
-print(handle.draw())
